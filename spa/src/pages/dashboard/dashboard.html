@@ -1,0 +1,102 @@
+<ion-header class="navigation-header">
+  <ion-navbar color="primary">
+    <div class="page-title">
+      <ion-title>Sensor hub</ion-title>
+    </div>
+    <div class="user-login">
+      <ion-item class="user-profile" *ngIf="auth.user">
+        <ion-avatar item-left>
+          <img src="{{ auth.user.picture }}">
+        </ion-avatar>
+        <h2>{{ auth.user.email }}</h2>
+      </ion-item>
+      <ion-buttons>
+        <button ion-button *ngIf="auth.user" class="btn-logout" (click)="auth.logout()">LOG OUT</button>
+        <button ion-button *ngIf="!auth.user" class="btn-login" (click)="auth.login()">LOG IN</button>
+      </ion-buttons>
+    </div>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <div class="welcome-guest" *ngIf="!auth.user">
+    <img src="assets/images/bot.png">
+  </div>
+  <div class="welcome-user" *ngIf="auth.user">
+    <div class="active-kit">
+      <p>Wi-Fi kit</p>
+    </div>
+
+    <div class="router-apn-wrapper">
+      <div class="router-apn">
+        <span class="label">ROUTER</span>
+      </div>
+    </div>
+
+    <div class="wifi-signal-wrapper">
+      <div class="wifi-signal" [ngClass]="{'connection-offline': isCientOffline}"></div>
+    </div>
+
+    <div class="pcb">
+      <div class="microcontroller">
+        <span class="label">microcontroller</span>
+      </div>
+      <div class="nodemcu-unit">
+        <div class="nodemcu-module"></div>
+      </div>
+      <div class="nodemcu-label">
+        <div class="label">Wi-Fi module</div>
+      </div>
+      <div class="nodemcu-connection">
+        <div class="nodemcu-connection-status">
+          <span class="status-icon" [ngClass]="{'nodemcu-offline': nodeMCUOffline}"></span>
+          <span class="status-text" *ngIf="nodeMCUOffline" [ngClass]="{'text-disconnected': nodeMCUOffline}">DISCONNECTED</span>
+          <span class="status-text" *ngIf="!nodeMCUOffline" [ngClass]="{'text-connected': !nodeMCUOffline}">CONNECTED</span>
+        </div>
+      </div>
+      <div class="led-switch">
+
+        <ion-toggle></ion-toggle>
+      </div>
+    </div>
+
+    <div class="sensors">
+      <div class="sensor ldr-sensor">
+        <div class="sensor-connection up-left"></div>
+        <div class="sensor-data">
+          <p class="sensor-data-text">45%</p>
+        </div>
+        <span class="label">LDR SENSOR</span>
+      </div>
+      <div class="sensor rsvd-sensor">
+        <div class="sensor-connection bottom-left"></div>
+        <div class="sensor-data">
+          <p class="sensor-data-text">45%</p>
+        </div>
+        <span class="label">RSVD SENSOR</span>
+      </div>
+      <div class="sensor dst-sensor">
+        <div class="sensor-connection up-right"></div>
+        <div class="sensor-data">
+          <p class="sensor-data-text">45%</p>
+        </div>
+        <span class="label">DST SENSOR</span>
+      </div>
+      <div class="sensor bmp-sensor">
+        <div class="sensor-connection bottom-right"></div>
+        <div class="sensor-data">
+          <p class="sensor-data-text">45%</p>
+        </div>
+        <span class="label">BMP SENSOR</span>
+      </div>
+    </div>
+
+    <div class="load-appliance-wrapper">
+      <div class="appliance" [ngClass]="{'appliance-off': !isApplianceOn}">
+        <div class="appliance-connection"></div>
+        <span class="label">APPLIANCE</span>
+      </div>
+    </div>
+  </div>
+</ion-content>

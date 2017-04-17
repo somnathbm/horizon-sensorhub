@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 
 /* core ionic 2 modules */
-import { NavController, IonicPage } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 
 /* third party external library */
 import { Observable } from 'rxjs/Rx';
@@ -13,7 +13,6 @@ import { AuthService } from '../../services/auth.service';
 import { NetworkWatcherService } from '../../services/network-watcher.service';
 import { DataStreamingService } from '../../services/data-streaming.service';
 
-@IonicPage()
 @Component({
   selector: 'page-dashboard',
   templateUrl: 'dashboard.html'

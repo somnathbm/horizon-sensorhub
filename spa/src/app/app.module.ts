@@ -17,7 +17,6 @@ import { PubNubAngular } from 'pubnub-angular2';
 /* import custom services */
 import { AuthService } from '../services/auth.service';
 import { NetworkWatcherService } from '../services/network-watcher.service';
-import { DataStreamingService } from '../services/data-streaming.service';
 
 /* import app specific routes */
 //import { appRoutes } from './app.routes';
@@ -64,8 +63,7 @@ export function getAuthHttp(http) {
       deps: [Http]
     },
     NetworkWatcherService,
-    PubNubAngular,
-    DataStreamingService
+    PubNubAngular
   ]
 })
 export class AppModule {}

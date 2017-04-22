@@ -10,7 +10,6 @@ import { PubNubAngular } from 'pubnub-angular2';
 
 /* app services */
 import { AuthService } from '../../services/auth.service';
-import { NetworkWatcherService } from '../../services/network-watcher.service';
 
 @Component({
   selector: 'page-dashboard',
@@ -43,7 +42,7 @@ export class Dashboard {
   private nodeMCUOnline: boolean = false;
 
 
-  constructor(public auth: AuthService, private network: NetworkWatcherService, private pubnub: PubNubAngular) {
+  constructor(public auth: AuthService, private pubnub: PubNubAngular) {
 
   }
 

@@ -35,7 +35,7 @@
     </div>
 
     <div class="wifi-signal-wrapper">
-      <div class="wifi-signal" [ngClass]="{'connection-offline': isCientOffline}"></div>
+      <div class="wifi-signal" [ngClass]="{'connection-online': isCientOnline}"></div>
     </div>
 
     <div class="pcb">
@@ -50,9 +50,9 @@
       </div>
       <div class="nodemcu-connection">
         <div class="nodemcu-connection-status">
-          <span class="status-icon" [ngClass]="{'nodemcu-offline': nodeMCUOffline}"></span>
-          <span class="status-text" *ngIf="nodeMCUOffline" [ngClass]="{'text-disconnected': nodeMCUOffline}">DISCONNECTED</span>
-          <span class="status-text" *ngIf="!nodeMCUOffline" [ngClass]="{'text-connected': !nodeMCUOffline}">CONNECTED</span>
+          <span class="status-icon" [ngClass]="{'nodemcu-online': nodeMCUOnline}"></span>
+          <span class="status-text" *ngIf="!nodeMCUOnline" [ngClass]="{'text-disconnected': !nodeMCUOnline}">DISCONNECTED</span>
+          <span class="status-text" *ngIf="nodeMCUOnline" [ngClass]="{'text-connected': nodeMCUOnline}">CONNECTED</span>
         </div>
       </div>
       <div class="led-switch">
@@ -93,10 +93,11 @@
     </div>
 
     <div class="load-appliance-wrapper">
-      <div class="appliance" [ngClass]="{'appliance-off': !isApplianceOn}">
+      <div class="appliance" [ngClass]="{'appliance-on': isApplianceOn}">
         <div class="appliance-connection"></div>
         <span class="label">APPLIANCE</span>
       </div>
+      <button ion-button (click)="getHubOccupancy()">query hub status</button>
     </div>
   </div>
 </ion-content>

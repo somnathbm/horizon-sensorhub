@@ -29,8 +29,9 @@ page-dashboard {
   }
 
   /* utility class to be used dyna,ically by angular */
-  .connection-offline, .appliance-off, .nodemcu-offline {
-      filter: grayscale(100%);
+
+  .nodemcu-online {
+    background-color: color($colors, 'secondary') !important;
   }
 
   .text-disconnected {
@@ -73,7 +74,11 @@ page-dashboard {
       height: 70px;
       margin: 0px auto;
       background-image: url('../assets/images/wifi3.svg');
+      filter: grayscale(100%);
       background-repeat: no-repeat;
+      &.connection-online {
+        filter: grayscale(0%);
+      }
     }
   }
 
@@ -347,6 +352,11 @@ page-dashboard {
       margin: 18px auto;
       //background-color: color($colors, 'dark');
       background-image: url('../assets/images/light1.svg');
+      filter: grayscale(100%);
+
+      &.appliance-on {
+        filter: grayscale(0%);
+      }
 
       & .appliance-connection {
         width: 540px;

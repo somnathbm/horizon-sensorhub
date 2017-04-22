@@ -32,25 +32,34 @@ export class Dashboard {
     publishKey: 'pub-c-10de8c04-0008-44a4-b20f-bae630c6ccd8',
     subscribeKey: 'sub-c-711a4a72-1a0f-11e7-a9ec-0619f8945a4f',
     ssl: true,
-    restore: true
+    restore: true,
+    uuid: 'ionic-client',
+    presenceTimeout: 60,
+    heartbeatInterval: 29
   };
 
-  private isCientOffline: boolean = true;
+  private isCientOnline: boolean = false;
   private isApplianceOn: boolean = false;
-  private nodeMCUOffline: boolean = true;
+  private nodeMCUOnline: boolean = false;
+
 
   constructor(public auth: AuthService, private network: NetworkWatcherService, private pubnub: PubNubAngular) {
+
+  }
+
+  ngAfterViewInit() {
     /* init pubnub sdk & subscribe to channels */
     this.initPubNubSDK();
     this.channelSubscription();
-
-    /* call network watcher service */
-    this.determineNetworkState();
-    this.watchNetworkState();
+    //this.publishMsg();
 
     /* listen for PubNub events */
     this.getHubStatus();
-    this.getHubMessage();
+    //this.getHubMessage();
+    //this.getHubPresence();
+    //this.getHubStateInfo();
+    //this.getHubOccupancy();
+    this.interceptSensorData();
   }
 
   // initialize pubnub SDK
@@ -58,24 +67,32 @@ export class Dashboard {
     this.pubnub.init(this.pubnubKeyDev);
   }
 
-  // determine network state
-  determineNetworkState() {
-    this.isCientOffline = navigator.onLine ? false:true;
-  }
-
-  // handle network state by using network watcher service
-  watchNetworkState(){
-    this.network.notifyNetworkOffline().subscribe( e => this.isCientOffline = true);
-    this.network.notifyNetworkOnline().subscribe(e => this.isCientOffline = false);
-  }
-
   // subscribing to hubs and sensor comms
   channelSubscription() {
     this.pubnub.subscribe({
-      channels: ['hubcomm', 'sensorcomm'],
+      channels: ['hubcomm'],
       withPresence: true,
       triggerEvents: true
     });
+
+    this.pubnub.subscribe({
+      channels: ['sensorcomm'],
+      triggerEvents: ['message']
+    });
+  }
+
+  // publish message
+  publishMsg() {
+      this.pubnub.publish({
+        message: 'hi bro',
+        channel: 'hubcomm'
+      }, (status, response) => {
+        console.log('publish callback status');
+        console.log(status);
+
+        console.log('publish callback response');
+        console.log(response);
+      });
   }
 
   // get hub status first
@@ -83,14 +100,67 @@ export class Dashboard {
     this.pubnub.getStatus('hubcomm', status => {
       console.log('Hub status');
       console.log(status);
+
+      if( status.category == 'PNConnectedCategory' || status.category == 'PNNetworkUpCategory' || status.category == 'PNReconnectedCategory') {
+        this.isCientOnline = true;
+      }
+      else if( status.category == 'PNNetworkDownCategory') {
+        this.isCientOnline = false;
+      }
     });
   }
 
   // get hub message
   getHubMessage() {
-    this.pubnub.getMessage('hubcomm', message => {
+    this.pubnub.getMessage('hubcomm', msg => {
       console.log('Hub message');
-      console.log(message);
+      console.log(msg.message);
+      //this.nodeMCUOnline = msg.message.name == 'hub' && msg.message.status == 1 ? true: false;
+    });
+  }
+
+  // get here now occupancy
+  getHubPresence() {
+    this.pubnub.getPresence('hubcomm', presence => {
+      console.log('Hub presence status');
+      console.log(presence);
+    });
+  }
+
+  // get hub wherenow occupancy
+  getHubOccupancy() {
+    this.pubnub.hereNow({
+      channels: ['hubcomm'],
+      includeUUIDs: true,
+      includeState: true
+    }, (status, response) => {
+      console.log('Hub herenow occupancy status');
+      console.log(status);
+
+      console.log('Hub herenow occupancy response');
+      console.log(response);
+    });
+  }
+
+  // get hub state information
+  getHubStateInfo() {
+    this.pubnub.getState({
+      uuid: 'CUWiFi1',
+      channels: ['hubcomm']
+    }, (status, response) => {
+      console.log('Hub state info status');
+      console.log(status);
+
+      console.log('Hub state info response');
+      console.log(response);
+    });
+  }
+
+  // intercept sensor message
+  interceptSensorData() {
+    this.pubnub.getMessage('sensorcomm', msg => {
+      console.log('sensor message');
+      console.log(msg.message);
     });
   }
 }

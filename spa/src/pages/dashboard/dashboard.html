@@ -63,25 +63,25 @@
 
     <div class="sensors">
       <div class="sensor ldr-sensor">
-        <div class="sensor-connection up-left"></div>
-        <div class="sensor-data">
+        <div class="sensor-connection up-left dataflow-animation-right"></div>
+        <div class="sensor-data animation-cloudburst">
           <p class="sensor-data-text">45%</p>
         </div>
         <span class="label">LDR SENSOR</span>
       </div>
-      <div class="sensor rsvd-sensor">
-        <div class="sensor-connection bottom-left"></div>
+      <div class="sensor temp-sensor">
+        <div class="sensor-connection bottom-left" *ngIf="sensorData.temp != 00.00" [ngClass]="{'dataflow-animation-right': sensorData.temp != 00.00}"></div>
         <div class="sensor-data">
-          <p class="sensor-data-text">45%</p>
+          <p class="sensor-data-text">{{sensorData.temp}} °C</p>
         </div>
-        <span class="label">RSVD SENSOR</span>
+        <span class="label">TEMPERATURE SENSOR</span>
       </div>
       <div class="sensor dst-sensor">
-        <div class="sensor-connection up-right"></div>
+        <div class="sensor-connection up-right" *ngIf="sensorData.hum != 00.00"></div>
         <div class="sensor-data">
-          <p class="sensor-data-text">45%</p>
+          <p class="sensor-data-text">{{sensorData.hum}} %</p>
         </div>
-        <span class="label">DST SENSOR</span>
+        <span class="label">HUMIDITY SENSOR</span>
       </div>
       <div class="sensor bmp-sensor">
         <div class="sensor-connection bottom-right"></div>

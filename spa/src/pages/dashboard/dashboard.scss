@@ -1,4 +1,57 @@
 page-dashboard {
+  /* animation */
+  @keyframes dataflow-right {
+    from {
+      transform: scale(0);
+      opacity: 0.34;
+      transform-origin: right;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes dataflow-left {
+    from {
+      transform: scale(0);
+      opacity: 0.34;
+      transform-origin: left;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes cloud-burst {
+    0% {
+      transform: scale(0);
+      transform-origin: center;
+    }
+    50% {
+      transform: scale(1.5);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  .dataflow-animation-right {
+    animation: dataflow-right 1s linear;
+    transition: all 1s linear;
+  }
+
+  .dataflow-animation-left {
+    animation: dataflow-left 1s linear;
+    transition: all 1s linear;
+  }
+
+  .animation-cloudburst {
+    animation: cloud-burst 1s ease-in-out;
+    transition: all 1s ease-in-out;
+  }
+
   .welcome-guest {
     width: 38%;
     margin: 64px auto;
@@ -195,7 +248,7 @@ page-dashboard {
           left: -83px;
         }
       }
-      &.rsvd-sensor {
+      &.temp-sensor {
         position: absolute;
         top: -220px;
         left: 16%;

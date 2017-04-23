@@ -41,24 +41,35 @@ export class Dashboard {
   private isApplianceOn: boolean = false;
   private nodeMCUOnline: boolean = false;
 
+  private sensorData: object = { hum: '00.00', temp: '00.00' };
 
   constructor(public auth: AuthService, private pubnub: PubNubAngular) {
 
   }
 
   ngAfterViewInit() {
-    /* init pubnub sdk & subscribe to channels */
-    this.initPubNubSDK();
-    this.channelSubscription();
-    //this.publishMsg();
+    this.checkAuthStatus();
+  }
 
-    /* listen for PubNub events */
-    this.getHubStatus();
-    //this.getHubMessage();
-    //this.getHubPresence();
-    //this.getHubStateInfo();
-    //this.getHubOccupancy();
-    this.interceptSensorData();
+  // a hacky approach to check auth status lifecycle hook
+  checkAuthStatus() {
+    let intervalId = setInterval(() => {
+      if(this.auth.authenticated()){
+        console.log('user authenticated!!');
+
+        /* call pubnub related tasks here */
+        this.initPubNubSDK();
+        this.channelSubscription();
+        this.getHubStatus();
+        this.interceptSensorData();
+
+        /* clear the interval because its no longer needed to check */
+        clearInterval(intervalId);
+      }
+      else {
+        console.log('user NOT authenticated!!');
+      }
+    }, 5000);
   }
 
   // initialize pubnub SDK
@@ -159,7 +170,9 @@ export class Dashboard {
   interceptSensorData() {
     this.pubnub.getMessage('sensorcomm', msg => {
       console.log('sensor message');
-      console.log(msg.message);
+      console.log(msg.message); // {msg: { humidity: 222, temp: 222} }
+
+      this.sensorData = msg.message;
     });
   }
 }

@@ -22,7 +22,7 @@ export class AuthService {
   });
   private JwtHelper: JwtHelper = new JwtHelper();
   private storage: Storage = new Storage('localstorage');
-  private user: Object;
+  public user: Object;
   private accessToken: string;
   private idToken: string;
   private zoneImpl: NgZone;

@@ -14,6 +14,9 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+ion-content .scroll-content {
+  overflow-y: hidden;
+}
 
 .navigation-header, .toolbar-content {
   display: flex;
@@ -21,10 +24,19 @@
   justify-content: space-between;
   align-items: center;
 
-  .page-title, .user-login {
+  .page-brand, .user-login {
     width: 50%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
   }
 
+  .page-brand button { box-shadow: none; }
+
+  .primary-logo {
+    width: 32px;
+    height: 32px;
+  }
   .user-login {
     display: flex;
     flex-flow: row nowrap;

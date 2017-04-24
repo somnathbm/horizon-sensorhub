@@ -25,6 +25,10 @@ import { MyApp } from './app.component';
 
 /* import other components , directives or pipes */
 import { Dashboard } from '../pages/dashboard/dashboard';
+import { Hiw } from '../pages/hiw/hiw';
+import { About } from '../pages/about/about';
+import { Developers } from '../pages/developers/developers';
+import { Menu } from '../pages/menu/menu';
 
 /* configure factory for providers */
 let storage: Storage = new Storage('localstorage');
@@ -39,7 +43,11 @@ export function getAuthHttp(http) {
 @NgModule({
   declarations: [
     MyApp,
-    Dashboard
+    Dashboard,
+    Hiw,
+    About,
+    Developers,
+    Menu
   ],
   imports: [
     BrowserModule,
@@ -49,7 +57,11 @@ export function getAuthHttp(http) {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    Dashboard
+    Dashboard,
+    Hiw,
+    About,
+    Developers,
+    Menu
   ],
   providers: [
     StatusBar,

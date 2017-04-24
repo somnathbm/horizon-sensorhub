@@ -1,0 +1,17 @@
+<ion-menu [content]="content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <button ion-item *ngFor="let page of pageSets" (click)="openPage(page)">
+        <ion-icon [name]="page.icon" color="primary"></ion-icon>
+        {{ page.title }}
+      </button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-nav #content [root]="rootPage"></ion-nav>

@@ -5,8 +5,8 @@ import { Injectable, NgZone } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
 /* third party external modules */
-import { tokenNotExpired, AuthHttp, JwtHelper } from 'angular2-jwt';
-import { Observable } from 'rxjs/Rx';
+import { tokenNotExpired, AuthHttp } from 'angular2-jwt';
+//import { Observable } from 'rxjs/Rx';
 
 // avoid name not found warnings
 declare var Auth0Lock: any;
@@ -20,7 +20,7 @@ export class AuthService {
       redirect: false
     }
   });
-  private JwtHelper: JwtHelper = new JwtHelper();
+  //private JwtHelper: JwtHelper = new JwtHelper();
   private storage: Storage = new Storage('localstorage');
   public user: Object;
   private accessToken: string;

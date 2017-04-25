@@ -43,14 +43,10 @@
 
     <div class="pcb">
       <div class="microcontroller">
-        <!-- <span class="label">microcontroller</span> -->
       </div>
       <div class="nodemcu-unit">
         <div class="nodemcu-module"></div>
       </div>
-      <!-- <div class="nodemcu-label">
-        <div class="label">Wi-Fi module</div>
-      </div> -->
       <!-- <div class="nodemcu-connection">
         <div class="nodemcu-connection-status">
           <span class="status-icon" [ngClass]="{'nodemcu-online': nodeMCUOnline}"></span>
@@ -59,40 +55,39 @@
         </div>
       </div> -->
       <div class="led-switch">
-
-        <ion-toggle></ion-toggle>
+        <ion-toggle #applToggle (ionChange)="toggleAppl(applToggle.checked)"></ion-toggle>
       </div>
     </div>
 
     <div class="sensors">
-      <div class="sensor ldr-sensor">
-        <div class="sensor-connection up-left dataflow-animation-right"></div>
-        <div class="sensor-data balloon-up">
-          <p class="sensor-data-text">45 %</p>
+      <div class="sensor ldr-sensor" *ngIf="occupancyStatus.sensors.ldr.status">
+        <div class="sensor-connection up-left"></div>
+        <div class="sensor-data balloon-up" *ngIf="sensorData.sensors.ldr.data">
+          <p class="sensor-data-text">{{ sensorData.sensors.ldr.data }}</p>
         </div>
       </div>
-      <div class="sensor temp-sensor">
-        <div class="sensor-connection bottom-left" [ngClass]="{'dataflow-animation-right': sensorData.temp != 00.00}"></div>
-        <div class="sensor-data balloon-down">
-          <p class="sensor-data-text">45 °C</p>
+      <div class="sensor temp-sensor" *ngIf="occupancyStatus.sensors.temp.status">
+        <div class="sensor-connection bottom-left"></div>
+        <div class="sensor-data balloon-down" *ngIf="sensorData.sensors.temp.data">
+          <p class="sensor-data-text">{{ sensorData.sensors.temp.data }}</p>
         </div>
       </div>
-      <div class="sensor dst-sensor">
+      <div class="sensor dst-sensor" *ngIf="occupancyStatus.sensors.dst.status">
         <div class="sensor-connection up-right"></div>
-        <div class="sensor-data balloon-up">
-          <p class="sensor-data-text">45 %</p>
+        <div class="sensor-data balloon-up" *ngIf="sensorData.sensors.dst.data">
+          <p class="sensor-data-text">{{ sensorData.sensors.dst.data }}</p>
         </div>
       </div>
-      <div class="sensor bmp-sensor">
+      <div class="sensor bmp-sensor" *ngIf="occupancyStatus.sensors.bmp.status">
         <div class="sensor-connection bottom-right"></div>
-        <div class="sensor-data balloon-down">
-          <p class="sensor-data-text">45 %</p>
+        <div class="sensor-data balloon-down" *ngIf="sensorData.sensors.bmp.data">
+          <p class="sensor-data-text">{{ sensorData.sensors.bmp.data }}</p>
         </div>
       </div>
     </div>
 
     <div class="load-appliance-wrapper">
-      <div class="appliance" [ngClass]="{'appliance-on': isApplianceOn}">
+      <div class="appliance" [ngClass]="{'appliance-on': applianceData.appliances.led.data == 100}" *ngIf="occupancyStatus.appliances.led.status">
         <div class="appliance-connection"></div>
         <span class="label">APPLIANCE</span>
       </div>

@@ -31,7 +31,12 @@ ion-content .scroll-content {
     justify-content: flex-start;
   }
 
-  .page-brand button { box-shadow: none; }
+  .page-brand button {
+    box-shadow: none;
+    order: 0;
+  }
+
+  .button-clear-md { color: #fff !important; }
 
   .primary-logo {
     width: 32px;

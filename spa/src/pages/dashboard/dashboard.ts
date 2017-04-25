@@ -2,14 +2,17 @@
 import { Component } from '@angular/core';
 
 /* core ionic 2 modules */
-import { NavController } from 'ionic-angular';
+//import { NavController } from 'ionic-angular';
 
 /* third party external library */
-import { Observable } from 'rxjs/Rx';
+//import { Observable } from 'rxjs/Rx';
 import { PubNubAngular } from 'pubnub-angular2';
 
 /* app services */
 import { AuthService } from '../../services/auth.service';
+
+/* helpers for app wide use */
+import { pubnubKeyDev } from '../../helpers/pubnub.environment';
 
 @Component({
   selector: 'page-dashboard',
@@ -17,31 +20,38 @@ import { AuthService } from '../../services/auth.service';
 })
 export class Dashboard {
 
-  // memeber variables
-  // PubNub production keyset
-  private pubnubKeyProd = {
-    publishKey: 'pub-c-c2afe15d-b8f5-4761-b856-df5d40f58769',
-    subscribeKey: 'sub-c-452ec980-1cf6-11e7-962a-02ee2ddab7fe',
-    ssl: true,
-    restore: true
+  /* memeber variables */
+
+  // sensor specific
+  private occupancyStatus = {
+    sensors: {
+      ldr: { id: 123, status: 0, occurred_on: 123456789 },
+      temp: { id: 123, status: 0, occurred_on: 123456789 },
+      dst: { id: 123, status: 0, occurred_on: 123456789 },
+      bmp: { id: 123, status: 0, occurred_on: 123456789 }
+    },
+    appliances: {
+      led: { id: 123, status: 0, occurred_on: 123456789 }
+    }
   };
 
-  // PubNub development keyset
-  private pubnubKeyDev = {
-    publishKey: 'pub-c-10de8c04-0008-44a4-b20f-bae630c6ccd8',
-    subscribeKey: 'sub-c-711a4a72-1a0f-11e7-a9ec-0619f8945a4f',
-    ssl: true,
-    restore: true,
-    uuid: 'ionic-client',
-    presenceTimeout: 60,
-    heartbeatInterval: 29
+  private sensorData = {
+    sensors: {
+      ldr: { id: 123, data: '123', last_modified_on: 123456789 },
+      temp: { id: 123, data: '123', last_modified_on: 123456789 },
+      dst: { id: 123, data: '123', last_modified_on: 123456789 },
+      bmp: { id: 123, data: '123', last_modified_on: 123456789 }
+    }
   };
 
+  private applianceData = {
+    appliances: {
+      led: { id: 123, data: '123', last_modified_on: 123456789 }
+    }
+  };
+
+  // connection specific
   private isCientOnline: boolean = false;
-  private isApplianceOn: boolean = false;
-  private nodeMCUOnline: boolean = false;
-
-  private sensorData: object = { hum: '00.00', temp: '00.00' };
 
   constructor(public auth: AuthService, private pubnub: PubNubAngular) {
 
@@ -61,7 +71,9 @@ export class Dashboard {
         this.initPubNubSDK();
         this.channelSubscription();
         this.getHubStatus();
-        this.interceptSensorData();
+        this.getHubMessage();
+        this.getSensorData();
+        this.getApplianceData();
 
         /* clear the interval because its no longer needed to check */
         clearInterval(intervalId);
@@ -74,7 +86,7 @@ export class Dashboard {
 
   // initialize pubnub SDK
   initPubNubSDK() {
-    this.pubnub.init(this.pubnubKeyDev);
+    this.pubnub.init(pubnubKeyDev);
   }
 
   // subscribing to hubs and sensor comms
@@ -89,13 +101,18 @@ export class Dashboard {
       channels: ['sensorcomm'],
       triggerEvents: ['message']
     });
+
+    this.pubnub.subscribe({
+      channels: ['applcomm'],
+      triggerEvents: ['message']
+    });
   }
 
   // publish message
-  publishMsg() {
+  publishMsgToAppl(payload: object) {
       this.pubnub.publish({
-        message: 'hi bro',
-        channel: 'hubcomm'
+        message: payload,
+        channel: 'applcomm'
       }, (status, response) => {
         console.log('publish callback status');
         console.log(status);
@@ -105,7 +122,7 @@ export class Dashboard {
       });
   }
 
-  // get hub status first
+  // get network connectivity on the channel first which will also determine this client application network connectivity
   getHubStatus() {
     this.pubnub.getStatus('hubcomm', status => {
       console.log('Hub status');
@@ -120,35 +137,37 @@ export class Dashboard {
     });
   }
 
-  // get hub message
+  // get hub message which will consists sensor or appliance plugged / unplugged information
   getHubMessage() {
     this.pubnub.getMessage('hubcomm', msg => {
       console.log('Hub message');
       console.log(msg.message);
-      //this.nodeMCUOnline = msg.message.name == 'hub' && msg.message.status == 1 ? true: false;
+
+      let hubMsg = msg.message;
+
+      /** the sample sensor status or appliance status :
+        *  { sensors: { temp: { id: 1234, status: 1, occurred_on: 174523... }}}
+        *  { appliances: { temp: { id: 1234, status: 1, occurred_on: 174523... }}}
+        */
+
+      // get the root key first
+      let subjectType = Object.keys(hubMsg)[0]; // `sensors`
+      // get the sensor or appliance key
+      let objectType = Object.keys(hubMsg[subjectType])[0]; // `temp` or `led`
+
+      // assign or overwrite
+      if(Object.keys(this.occupancyStatus).indexOf(subjectType) != -1 || Object.keys(this.occupancyStatus[subjectType]).indexOf(objectType)) {
+        this.occupancyStatus[subjectType][objectType] = hubMsg[subjectType][objectType];
+      }
+
     });
   }
 
-  // get here now occupancy
-  getHubPresence() {
+  // get occupancy information
+  getHubOccupancy() {
     this.pubnub.getPresence('hubcomm', presence => {
       console.log('Hub presence status');
       console.log(presence);
-    });
-  }
-
-  // get hub wherenow occupancy
-  getHubOccupancy() {
-    this.pubnub.hereNow({
-      channels: ['hubcomm'],
-      includeUUIDs: true,
-      includeState: true
-    }, (status, response) => {
-      console.log('Hub herenow occupancy status');
-      console.log(status);
-
-      console.log('Hub herenow occupancy response');
-      console.log(response);
     });
   }
 
@@ -166,13 +185,64 @@ export class Dashboard {
     });
   }
 
-  // intercept sensor message
-  interceptSensorData() {
+  // get sensor messages
+  getSensorData() {
     this.pubnub.getMessage('sensorcomm', msg => {
       console.log('sensor message');
-      console.log(msg.message); // {msg: { humidity: 222, temp: 222} }
+      console.log(msg.message);
 
-      this.sensorData = msg.message;
+      let sensorMsg = msg.message;
+
+      /** the sample sensor status or appliance status :
+        *  { sensors: { temp: { id: 1234, data: '', occurred_on: 174523... }}}
+        */
+
+      // get the root key first
+      let subjectType = Object.keys(sensorMsg)[0]; // `sensors`
+      // get the sensor or appliance key
+      let objectType = Object.keys(sensorMsg[subjectType])[0]; // `temp` or `led`
+
+      // assign or overwrite
+      if(Object.keys(this.sensorData).indexOf(subjectType) != -1 || Object.keys(this.sensorData[subjectType]).indexOf(objectType)) {
+        this.sensorData[subjectType][objectType] = sensorMsg[subjectType][objectType];
+      }
+
     });
+  }
+
+  // get appliance messages
+  getApplianceData() {
+    this.pubnub.getMessage('applcomm', msg => {
+      console.log('appliance message');
+      console.log(msg.message);
+
+      let applMsg = msg.message;
+
+      /** the sample sensor status or appliance status :
+        *  { appliances: { led: { id: 1234, data: '', occurred_on: 174523... }}}
+        */
+
+      // get the root key first
+      let subjectType = Object.keys(applMsg)[0]; // `appliances`
+      // get the sensor or appliance key
+      let objectType = Object.keys(applMsg[subjectType])[0]; // `led`
+
+      // assign or overwrite
+      if(Object.keys(this.applianceData).indexOf(subjectType) != -1 || Object.keys(this.applianceData[subjectType]).indexOf(objectType)) {
+        this.applianceData[subjectType][objectType] = applMsg[subjectType][objectType];
+      }
+
+    });
+  }
+
+  // toggle appliances
+  toggleAppl(e) {
+    let payload = { name: 'led' };
+
+    payload['req_status'] = e? 100:0;
+    payload['requested_on'] = Date.now();
+
+    // call publish method and pass payload
+    this.publishMsgToAppl(payload);
   }
 }

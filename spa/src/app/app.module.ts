@@ -28,6 +28,7 @@ import { Dashboard } from '../pages/dashboard/dashboard';
 import { Hiw } from '../pages/hiw/hiw';
 import { About } from '../pages/about/about';
 import { Developers } from '../pages/developers/developers';
+import { TermsConditions } from '../pages/terms/terms';
 import { Menu } from '../pages/menu/menu';
 
 /* configure factory for providers */
@@ -47,6 +48,7 @@ export function getAuthHttp(http) {
     Hiw,
     About,
     Developers,
+    TermsConditions,
     Menu
   ],
   imports: [
@@ -61,6 +63,7 @@ export function getAuthHttp(http) {
     Hiw,
     About,
     Developers,
+    TermsConditions,
     Menu
   ],
   providers: [

@@ -1,3 +1,31 @@
 about {
+  ion-content .scroll-content {
+    overflow-y: scroll;
+  }
 
+  .hero {
+    width: 100%;
+    height: 330px;
+    background-image: url('../assets/images/mod/horizon.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+  }
+
+  article {
+    margin: 84px 0px 114px;
+    h2{
+      font-family: 'Comfortaa', cursive;
+      font-size: 2.4rem;
+      color: color($colors, 'secondary-dark');
+    }
+    p, li {
+      font-family: 'Roboto Slab', serif;
+      font-size: 1.85rem;
+      color: darken(silver, 30%);
+    }
+
+    li { font-size: 1.45rem; }
+    a{ color: color($colors, 'primary-light'); }
+  }
 }

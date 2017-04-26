@@ -3,6 +3,7 @@ import { Injectable, NgZone } from '@angular/core';
 
 /* core ionic 2 modules */
 import { Storage } from '@ionic/storage';
+import { LoadingController } from 'ionic-angular';
 
 /* third party external modules */
 import { tokenNotExpired, AuthHttp } from 'angular2-jwt';
@@ -26,8 +27,9 @@ export class AuthService {
   private accessToken: string;
   private idToken: string;
   private zoneImpl: NgZone;
+  private loader: any;
 
-  constructor(private authHttp: AuthHttp, private zone: NgZone) {
+  constructor(private authHttp: AuthHttp, private zone: NgZone, private loadr: LoadingController) {
     this.zoneImpl = zone;
 
     // check if there's a profile saved in local storage
@@ -44,6 +46,7 @@ export class AuthService {
     // listen when authentication event
     this.lock.on('authenticated', authResult => {
       if(authResult && authResult.accessToken && authResult.idToken) {
+        this.loader.dismiss();
         this.storage.set('access_token', authResult.accessToken);
         this.storage.set('id_token', authResult.idToken);
         this.accessToken = authResult.accessToken;
@@ -65,10 +68,16 @@ export class AuthService {
         this.zoneImpl.run(() => this.user = authResult.profile);
       }
     });
+
   }
 
   // display lock widget and handle sign in or sign up
   public login() {
+    this.loader = this.loadr.create({
+      content: 'authenticating...',
+      dismissOnPageChange: true
+    });
+    this.loader.present();
     this.lock.show();
   }
 

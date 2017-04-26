@@ -1,3 +1,43 @@
 page-menu {
+  ion-menu ion-content .scroll-content {
+    background-color: #8e24aa;
+  }
 
+  ion-menu .close {
+    order: 0 !important;
+  }
+
+  ion-menu ion-list ion-list-header {
+    margin-bottom: 0 !important;
+  }
+
+  ion-menu ion-content {
+    .logo {
+      width: 100%;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      position: absolute;
+      bottom: 0;
+      img {
+        width: 41%;
+      }
+    }
+
+    .theme {
+      .gray, .violet {
+        border-radius: 50%;
+        font-size: 2rem;
+      }
+
+      .gray {
+        background-color: #546e7a;
+      }
+
+      .violet {
+        background-color: #8e24aa;
+      }
+    }
+
+  }
 }

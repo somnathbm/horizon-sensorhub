@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnChanges } from '@angular/core';
 import { NavController, MenuController } from 'ionic-angular';
 
 import { Dashboard } from '../dashboard/dashboard';
@@ -12,6 +12,7 @@ import { TermsConditions } from '../terms/terms';
   templateUrl: 'menu.html',
 })
 export class Menu {
+
   rootPage: any = Dashboard;
   pageSets = [
     { name: 'hiw', title: 'How it works', component: Hiw, icon: 'flask' },
@@ -20,7 +21,20 @@ export class Menu {
     { name: 'about', title: 'About', component: About, icon: 'information-circle' }
   ];
 
+  themes = [
+    { name: 'gray', menuThemeClass: 'bluegray-lightgreen', colorMapKey: { primary: 'bluegray-lightgreen-primary', secondary: 'bluegray-lightgreen-secondary'} },
+    { name: 'purple', menuThemeClass: 'purple-lightgreen', colorMapKey: { primary: 'purple-lightgreen-primary', secondary: 'purple-lightgreen-secondary'} },
+    { name: 'blue', menuThemeClass: 'blue-yellow', colorMapKey: { primary: 'blue-yellow-primary', secondary: 'blue-yellow-secondary'} }
+  ];
+
+  defaultColorMapKey: object = { primary: 'blue-yellow-primary', secondary: 'blue-yellow-secondary' };
+  defaultTheme: string = 'blue-yellow';
+
   constructor(public navCtrl: NavController, public menuCtrl: MenuController) {
+  }
+
+  ngOnInit() {
+      Dashboard.prototype.myTheme = this.defaultColorMapKey;
   }
 
   openPage(page) {
@@ -29,5 +43,12 @@ export class Menu {
 
   toggleMenu() {
     this.menuCtrl.toggle();
+  }
+
+  changeTheme(theme) {
+    this.defaultTheme = theme.menuThemeClass;
+    this.defaultColorMapKey = theme.colorMapKey;
+    Dashboard.prototype.myTheme = theme.colorMapKey;
+    Dashboard.prototype.ngOnChanges();
   }
 }

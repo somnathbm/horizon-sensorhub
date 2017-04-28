@@ -1,3 +1,39 @@
 developers {
+  ion-content .scroll-content {
+    overflow-y: scroll;
+  }
 
+  .hero {
+    width: 100%;
+    height: 330px;
+    background-image: url('../assets/images/mod/dev.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    //background-position: center center;
+  }
+
+  .main-content {
+    width: 60%;
+    margin: 0 auto;
+  }
+
+  article {
+    margin: 84px 0px 114px;
+    h2{
+      font-family: 'Roboto', sans-serif;
+      font-size: 34px;
+      font-weight: 300;
+      margin-bottom: 34px;
+      color: #000;
+    }
+    p, li {
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(0,0,0,0.7);
+    }
+
+    li { font-size: 1.45rem; }
+    a{ color: color($colors, 'primary-light'); }
+  }
 }

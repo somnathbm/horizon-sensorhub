@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 
 /* core ionic 2 modules */
-//import { NavController } from 'ionic-angular';
+//import { IonicPage } from 'ionic-angular';
 
 /* third party external library */
 //import { Observable } from 'rxjs/Rx';
@@ -52,6 +52,7 @@ export class Dashboard {
 
   // connection specific
   private isCientOnline: boolean = false;
+  public myTheme: object;
 
   constructor(public auth: AuthService, private pubnub: PubNubAngular) {
 
@@ -59,6 +60,13 @@ export class Dashboard {
 
   ngAfterViewInit() {
     this.checkAuthStatus();
+    console.log('dashboard theme name');
+    console.log(Dashboard.prototype.myTheme);
+  }
+
+  ngOnChanges() {
+    console.log('dashboard theme name');
+    console.log(Dashboard.prototype.myTheme);
   }
 
   // a hacky approach to check auth status lifecycle hook

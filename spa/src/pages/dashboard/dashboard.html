@@ -1,5 +1,5 @@
 <ion-header class="navigation-header">
-  <ion-navbar color="primary">
+  <ion-navbar [color]="myTheme.primary">
     <div class="page-brand">
       <button ion-button icon-only menuToggle>
         <ion-icon name="menu"></ion-icon>
@@ -27,7 +27,7 @@
     <img src="assets/images/bot.png">
   </div>
   <div class="welcome-user" *ngIf="auth.user">
-    <div class="active-kit">
+    <div class="active-kit" [ngClass]="{ 'blue-yellow': myTheme.secondary == 'blue-yellow-secondary', 'bluegray-lightgreen': myTheme.secondary == 'bluegray-lightgreen-secondary', 'purple-lightgreen': myTheme.secondary == 'purple-lightgreen-secondary'}">
       <p>Wi-Fi kit</p>
     </div>
 

@@ -1,5 +1,13 @@
 page-menu {
-  ion-menu ion-content .scroll-content {
+  .blue-yellow{
+    background-color: #2196f3;
+  }
+
+  .bluegray-lightgreen {
+    background-color: #546e7a;
+  }
+
+  .purple-lightgreen {
     background-color: #8e24aa;
   }
 
@@ -25,17 +33,22 @@ page-menu {
     }
 
     .theme {
-      .gray, .violet {
+      .gray, .purple, .blue {
         border-radius: 50%;
         font-size: 2rem;
+        margin-right: 4px;
       }
 
-      .gray {
+      .gray, .gray:hover {
         background-color: #546e7a;
       }
 
-      .violet {
+      .purple, .purple:hover {
         background-color: #8e24aa;
+      }
+
+      .blue, .blue:hover {
+        background-color: #2196f3;
       }
     }
 

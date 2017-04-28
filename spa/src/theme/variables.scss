@@ -23,12 +23,44 @@ $font-path: "../assets/fonts";
 // colors so you can add, rename and remove colors as needed.
 // The "primary" color is the only required color in the map.
 
+// $colors: (
+//   primary:        #488aff,
+//   secondary:      #32db64,
+//   danger:         #f53d3d,
+//   light:          #f4f4f4,
+//   dark:           #222,
+// );
+
 $colors: (
-  //primary:    #488aff,
-  //secondary:  #32db64,
-  danger:     #f53d3d,
-  light:      #f4f4f4,
-  dark:       #222,
+  primary:                         #488aff,
+  primary-light:                   #327eff,
+  secondary:                       #32db64,
+  danger:                          #f53d3d,
+  light:                           #f4f4f4,
+  dark:                            #222,
+  blue-yellow-primary:             #2196f3,
+  blue-yellow-secondary:           #ffea00,
+  bluegray-lightgreen-primary:     #546e7a,
+  bluegray-lightgreen-secondary:   #76ff03,
+  purple-lightgreen-primary:       #8e24aa,
+  purple-lightgreen-secondary:     #76ff03,
+  primary-text:                    #ffffff,
+  secondary-text:                  #000000
+);
+
+
+$bluegray-lightgreen: (
+  primary:         #546e7a,
+  secondary:       #76ff03,
+  primary-light:   #819ca9,
+  primary-dark:    #29434e,
+  secondary-light: #b0ff57,
+  secondary-dark:  #32cb00,
+  primary-text:    #ffffff,
+  secondary-text:  #000000
+);
+
+$purple-lightgreen: (
   primary:         #8e24aa,
   secondary:       #76ff03,
   primary-light:   #c158dc,
@@ -39,27 +71,16 @@ $colors: (
   secondary-text:  #000000
 );
 
-// $bluegray-lightgreen: (
-//   primary:         #546e7a,
-//   secondary:       #76ff03,
-//   primary-light:   #819ca9,
-//   primary-dark:    #29434e,
-//   secondary-light: #b0ff57,
-//   secondary-dark:  #32cb00,
-//   primary-text:    #ffffff,
-//   secondary-text:  #000000
-// );
-
-// $purple-lightgreen: (
-//   primary:         #8e24aa,
-//   secondary:       #76ff03,
-//   primary-light:   #c158dc,
-//   primary-dark:    #5c007a,
-//   secondary-light: #b0ff57,
-//   secondary-dark:  #32cb00,
-//   primary-text:    #ffffff,
-//   secondary-text:  #000000
-// );
+$blue-yellow: (
+  primary:         #2196f3,
+  secondary:       #ffea00,
+  primary-light:   #6ec6ff,
+  primary-dark:    #0069c0,
+  secondary-light: #ffff56,
+  secondary-dark:  #c7b800,
+  primary-text:    #000000,
+  secondary-text:  #000000
+);
 
 // App iOS Variables
 // --------------------------------------------------

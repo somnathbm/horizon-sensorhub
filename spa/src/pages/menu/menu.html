@@ -8,19 +8,18 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
-  <ion-content>
+  <ion-content [ngClass]="defaultTheme">
     <ion-list>
       <ion-list-header>Pages</ion-list-header>
       <button ion-item *ngFor="let page of pageSets" (click)="openPage(page)">
-        <ion-icon [name]="page.icon" color="secondary-light"></ion-icon>
+        <ion-icon [name]="page.icon" [color]="defaultColorMapKey.secondary"></ion-icon>
         {{ page.title }}
       </button>
     </ion-list>
     <ion-list>
       <ion-list-header>Themes</ion-list-header>
       <ion-buttons ion-item class="theme">
-        <button ion-button class="gray"></button>
-        <button ion-button class="violet"></button>
+        <button ion-button *ngFor="let theme of themes" [class]="theme.name" (click)="changeTheme(theme)"></button>
       </ion-buttons>
     </ion-list>
     <div class="logo">

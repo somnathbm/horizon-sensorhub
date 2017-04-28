@@ -17,9 +17,6 @@ import { PubNubAngular } from 'pubnub-angular2';
 /* import custom services */
 import { AuthService } from '../services/auth.service';
 
-/* import app specific routes */
-//import { appRoutes } from './app.routes';
-
 /* import root app component */
 import { MyApp } from './app.component';
 
@@ -30,6 +27,7 @@ import { About } from '../pages/about/about';
 import { Developers } from '../pages/developers/developers';
 import { TermsConditions } from '../pages/terms/terms';
 import { Menu } from '../pages/menu/menu';
+
 
 /* configure factory for providers */
 let storage: Storage = new Storage('localstorage');

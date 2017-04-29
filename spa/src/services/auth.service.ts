@@ -3,7 +3,6 @@ import { Injectable, NgZone } from '@angular/core';
 
 /* core ionic 2 modules */
 import { Storage } from '@ionic/storage';
-import { LoadingController } from 'ionic-angular';
 
 /* third party external modules */
 import { tokenNotExpired, AuthHttp } from 'angular2-jwt';
@@ -19,6 +18,13 @@ export class AuthService {
   private lock = new Auth0Lock('5O0AJESQjxeOtKfoFasek5CX0zsbx5FB', 'somnathbm.auth0.com', {
     auth: {
       redirect: false
+    },
+    theme: {
+      logo: 'https://s3.ap-south-1.amazonaws.com/cu-sensorhub/logo.svg'
+    },
+    languageDictionary: {
+      emailInputPlaceholder: 'something@youremail.com',
+      title: 'Sensor hub'
     }
   });
   //private JwtHelper: JwtHelper = new JwtHelper();
@@ -29,7 +35,7 @@ export class AuthService {
   private zoneImpl: NgZone;
   private loader: any;
 
-  constructor(private authHttp: AuthHttp, private zone: NgZone, private loadr: LoadingController) {
+  constructor(private authHttp: AuthHttp, private zone: NgZone) {
     this.zoneImpl = zone;
 
     // check if there's a profile saved in local storage
@@ -46,7 +52,6 @@ export class AuthService {
     // listen when authentication event
     this.lock.on('authenticated', authResult => {
       if(authResult && authResult.accessToken && authResult.idToken) {
-        this.loader.dismiss();
         this.storage.set('access_token', authResult.accessToken);
         this.storage.set('id_token', authResult.idToken);
         this.accessToken = authResult.accessToken;
@@ -73,11 +78,6 @@ export class AuthService {
 
   // display lock widget and handle sign in or sign up
   public login() {
-    this.loader = this.loadr.create({
-      content: 'authenticating...',
-      dismissOnPageChange: true
-    });
-    this.loader.present();
     this.lock.show();
   }
 

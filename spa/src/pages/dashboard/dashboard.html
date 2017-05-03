@@ -5,6 +5,7 @@
         <ion-icon name="menu"></ion-icon>
       </button>
       <ion-title *ngIf="auth.user">Playground</ion-title>
+      <ion-title *ngIf="!auth.user">Sensor hub</ion-title>
     </div>
     <div class="user-login">
       <ion-item class="user-profile" *ngIf="auth.user">
@@ -14,7 +15,7 @@
         <h2>{{ auth.user.email }}</h2>
       </ion-item>
       <ion-buttons>
-        <button ion-button *ngIf="auth.user" class="btn-logout" (click)="auth.logout()">LOG OUT</button>
+        <button ion-button *ngIf="auth.user" class="btn-logout" (click)="logout()">LOG OUT</button>
         <button ion-button *ngIf="!auth.user" class="btn-login" (click)="auth.login()">LOG IN</button>
       </ion-buttons>
     </div>

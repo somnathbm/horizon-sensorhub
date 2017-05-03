@@ -1,5 +1,6 @@
 /* core angular 2 modules */
 import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 /* core ionic 2 modules */
 //import { IonicPage } from 'ionic-angular';
@@ -21,6 +22,7 @@ import { pubnubKeyDev } from '../../helpers/pubnub.environment';
 export class Dashboard {
 
   /* memeber variables */
+  public defaultTitle: string = 'Playground';
 
   // sensor specific
   private occupancyStatus = {
@@ -54,7 +56,7 @@ export class Dashboard {
   private isCientOnline: boolean = false;
   public myTheme: object;
 
-  constructor(public auth: AuthService, private pubnub: PubNubAngular) {
+  constructor(public auth: AuthService, private pubnub: PubNubAngular, private title: Title) {
 
   }
 
@@ -69,11 +71,14 @@ export class Dashboard {
     console.log(Dashboard.prototype.myTheme);
   }
 
+
   // a hacky approach to check auth status lifecycle hook
   checkAuthStatus() {
     let intervalId = setInterval(() => {
       if(this.auth.authenticated()){
         console.log('user authenticated!!');
+
+        this.title.setTitle('Playground');
 
         /* call pubnub related tasks here */
         this.initPubNubSDK();
@@ -252,5 +257,10 @@ export class Dashboard {
 
     // call publish method and pass payload
     this.publishMsgToAppl(payload);
+  }
+
+  logout() {
+    this.auth.logout();
+    this.title.setTitle('Sensor hub');
   }
 }

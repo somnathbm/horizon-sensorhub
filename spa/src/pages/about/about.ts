@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 //import { NavController } from 'ionic-angular';
 
 @Component({
@@ -7,7 +8,10 @@ import { Component } from '@angular/core';
 })
 export class About {
 
-  constructor() {
+  constructor(private title: Title) {
   }
 
+  ionViewWillLeave() {
+    this.title.setTitle('Playground');
+  }
 }

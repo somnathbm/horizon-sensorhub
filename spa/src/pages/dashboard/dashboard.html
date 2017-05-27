@@ -63,35 +63,48 @@
     <div class="sensors">
       <div class="sensor ldr-sensor" *ngIf="occupancyStatus.sensors.ldr.status">
         <div class="sensor-connection up-left"></div>
-        <div class="sensor-data balloon-up" *ngIf="sensorData.sensors.ldr.data">
-          <p class="sensor-data-text">{{ sensorData.sensors.ldr.data }}</p>
+        <div class="sensor-data balloon-up" *ngIf="sensorData.ldr.data">
+          <p class="sensor-data-text">{{ sensorData.ldr.data || '00.00 cd/m2' }}</p>
         </div>
       </div>
-      <div class="sensor temp-sensor" *ngIf="occupancyStatus.sensors.temp.status">
+      <!-- <div class="sensor temp-sensor" *ngIf="occupancyStatus.sensors.temp.status">
         <div class="sensor-connection bottom-left"></div>
-        <div class="sensor-data balloon-down" *ngIf="sensorData.sensors.temp.data">
-          <p class="sensor-data-text">{{ sensorData.sensors.temp.data }}</p>
+        <div class="sensor-data balloon-down" *ngIf="sensorData.temp.data">
+          <p class="sensor-data-text">{{ sensorData.temp.data || '00.00° C' }}</p>
+        </div>
+      </div> -->
+      <div class="sensor temp-sensor">
+        <div class="sensor-connection bottom-left"></div>
+        <div class="sensor-data balloon-down">
+          <p class="sensor-data-text">{{ sensorData.temp.data || '00.00° C' }}</p>
         </div>
       </div>
-      <div class="sensor dst-sensor" *ngIf="occupancyStatus.sensors.dst.status">
+      <!-- <div class="sensor dst-sensor" *ngIf="occupancyStatus.sensors.hum.status">
         <div class="sensor-connection up-right"></div>
-        <div class="sensor-data balloon-up" *ngIf="sensorData.sensors.dst.data">
-          <p class="sensor-data-text">{{ sensorData.sensors.dst.data }}</p>
+        <div class="sensor-data balloon-up" *ngIf="sensorData.hum.data">
+          <p class="sensor-data-text">{{ sensorData.hum.data || '00.00 %' }}</p>
+        </div>
+      </div> -->
+      <div class="sensor dst-sensor">
+        <div class="sensor-connection up-right"></div>
+        <div class="sensor-data balloon-up">
+          <p class="sensor-data-text">{{ sensorData.hum.data || '00.00 %' }}</p>
         </div>
       </div>
       <div class="sensor bmp-sensor" *ngIf="occupancyStatus.sensors.bmp.status">
         <div class="sensor-connection bottom-right"></div>
-        <div class="sensor-data balloon-down" *ngIf="sensorData.sensors.bmp.data">
-          <p class="sensor-data-text">{{ sensorData.sensors.bmp.data }}</p>
+        <div class="sensor-data balloon-down" *ngIf="sensorData.bmp.data">
+          <p class="sensor-data-text">{{ sensorData.bmp.data || '00.00 mmHg' }}</p>
         </div>
       </div>
     </div>
 
     <div class="load-appliance-wrapper">
-      <div class="appliance" [ngClass]="{'appliance-on': applianceData.appliances.led.data == 100}" *ngIf="occupancyStatus.appliances.led.status">
+      <div class="appliance" [ngClass]="{'appliance-on': applianceData.led.data == 100}" *ngIf="occupancyStatus.appliances.led.status">
         <div class="appliance-connection"></div>
         <span class="label">APPLIANCE</span>
       </div>
+      <button ion-button (click)="publishSensorMsg()">Publish</button>
     </div>
   </div>
 </ion-content>

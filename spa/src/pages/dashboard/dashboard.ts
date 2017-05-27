@@ -2,11 +2,8 @@
 import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
-/* core ionic 2 modules */
-//import { IonicPage } from 'ionic-angular';
-
 /* third party external library */
-//import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 import { PubNubAngular } from 'pubnub-angular2';
 
 /* app services */
@@ -29,7 +26,7 @@ export class Dashboard {
     sensors: {
       ldr: { id: 123, status: 0, occurred_on: 123456789 },
       temp: { id: 123, status: 0, occurred_on: 123456789 },
-      dst: { id: 123, status: 0, occurred_on: 123456789 },
+      hum: { id: 123, status: 0, occurred_on: 123456789 },
       bmp: { id: 123, status: 0, occurred_on: 123456789 }
     },
     appliances: {
@@ -38,19 +35,19 @@ export class Dashboard {
   };
 
   private sensorData = {
-    sensors: {
-      ldr: { id: 123, data: '123', last_modified_on: 123456789 },
-      temp: { id: 123, data: '123', last_modified_on: 123456789 },
-      dst: { id: 123, data: '123', last_modified_on: 123456789 },
-      bmp: { id: 123, data: '123', last_modified_on: 123456789 }
-    }
+      ldr: {},
+      temp: {},
+      hum: {},
+      bmp: {}
   };
 
+  // private sensorData;
+
   private applianceData = {
-    appliances: {
-      led: { id: 123, data: '123', last_modified_on: 123456789 }
-    }
+    led: {}
   };
+
+  // private applianceData;
 
   // connection specific
   private isCientOnline: boolean = false;
@@ -154,24 +151,34 @@ export class Dashboard {
   getHubMessage() {
     this.pubnub.getMessage('hubcomm', msg => {
       console.log('Hub message');
-      console.log(msg.message);
+      console.log(msg);
 
-      let hubMsg = msg.message;
+      // let hubMsg = msg.message;
+      //
+      // // get the root key first
+      // let subjectType = Object.keys(hubMsg)[0]; // `sensors`
+      // // get the sensor or appliance key
+      // let objectType = Object.keys(hubMsg[subjectType])[0]; // `temp` or `led`
+      //
+      // // assign or overwrite
+      // if(Object.keys(this.occupancyStatus).indexOf(subjectType) != -1 || Object.keys(this.occupancyStatus[subjectType]).indexOf(objectType)) {
+      //   this.occupancyStatus[subjectType][objectType] = hubMsg[subjectType][objectType];
+      // }
 
-      /** the sample sensor status or appliance status :
-        *  { sensors: { temp: { id: 1234, status: 1, occurred_on: 174523... }}}
-        *  { appliances: { temp: { id: 1234, status: 1, occurred_on: 174523... }}}
-        */
+      // observable approach
+      let source = Observable.of(msg.message);
+      source.subscribe(x => {
+        // get the root key first
+        let invoker = Object.keys(x)[0]; // `sensors`
+        // get the sensor or appliance key
+        let entity = Object.keys(x[invoker])[0]; // `temp` or `led`
 
-      // get the root key first
-      let subjectType = Object.keys(hubMsg)[0]; // `sensors`
-      // get the sensor or appliance key
-      let objectType = Object.keys(hubMsg[subjectType])[0]; // `temp` or `led`
+        // assign or overwrite
+        if(Object.keys(this.occupancyStatus).indexOf(invoker) != -1 || Object.keys(this.occupancyStatus[invoker]).indexOf(entity)) {
+          this.occupancyStatus[invoker][entity] = x[invoker][entity];
+        }
 
-      // assign or overwrite
-      if(Object.keys(this.occupancyStatus).indexOf(subjectType) != -1 || Object.keys(this.occupancyStatus[subjectType]).indexOf(objectType)) {
-        this.occupancyStatus[subjectType][objectType] = hubMsg[subjectType][objectType];
-      }
+      });
 
     });
   }
@@ -202,24 +209,22 @@ export class Dashboard {
   getSensorData() {
     this.pubnub.getMessage('sensorcomm', msg => {
       console.log('sensor message');
-      console.log(msg.message);
+      console.log(msg);
 
-      let sensorMsg = msg.message;
+      let source = Observable.of(msg.message);
+      source.subscribe(x => {
+        // --- for actual application use ---
+        // get the sensor key first
+        let sensorType = Object.keys(x)[0]; // `temp` or `dst`
 
-      /** the sample sensor status or appliance status :
-        *  { sensors: { temp: { id: 1234, data: '', occurred_on: 174523... }}}
-        */
+        // assign or overwrite
+        if(Object.keys(this.sensorData).indexOf(sensorType) != -1) {
+          this.sensorData[sensorType] = x[sensorType];
+        }
 
-      // get the root key first
-      let subjectType = Object.keys(sensorMsg)[0]; // `sensors`
-      // get the sensor or appliance key
-      let objectType = Object.keys(sensorMsg[subjectType])[0]; // `temp` or `led`
-
-      // assign or overwrite
-      if(Object.keys(this.sensorData).indexOf(subjectType) != -1 || Object.keys(this.sensorData[subjectType]).indexOf(objectType)) {
-        this.sensorData[subjectType][objectType] = sensorMsg[subjectType][objectType];
-      }
-
+        // -- for demo application use ---
+        // this.sensorData = x;
+      });
     });
   }
 
@@ -227,24 +232,22 @@ export class Dashboard {
   getApplianceData() {
     this.pubnub.getMessage('applcomm', msg => {
       console.log('appliance message');
-      console.log(msg.message);
+      console.log(msg);
 
-      let applMsg = msg.message;
+      let source = Observable.of(msg.message);
+      source.subscribe(x => {
+        // --- for actual application use ---
+        // get the sensor key first
+        let applianceType = Object.keys(x)[0]; // `temp` or `dst`
 
-      /** the sample sensor status or appliance status :
-        *  { appliances: { led: { id: 1234, data: '', occurred_on: 174523... }}}
-        */
+        // assign or overwrite
+        if(Object.keys(this.applianceData).indexOf(applianceType) != -1) {
+          this.applianceData[applianceType] = x[applianceType];
+        }
 
-      // get the root key first
-      let subjectType = Object.keys(applMsg)[0]; // `appliances`
-      // get the sensor or appliance key
-      let objectType = Object.keys(applMsg[subjectType])[0]; // `led`
-
-      // assign or overwrite
-      if(Object.keys(this.applianceData).indexOf(subjectType) != -1 || Object.keys(this.applianceData[subjectType]).indexOf(objectType)) {
-        this.applianceData[subjectType][objectType] = applMsg[subjectType][objectType];
-      }
-
+        // -- for demo application use ---
+        // this.applianceData = x;
+      });
     });
   }
 
@@ -259,8 +262,26 @@ export class Dashboard {
     this.publishMsgToAppl(payload);
   }
 
+  // user log out
   logout() {
     this.auth.logout();
     this.title.setTitle('Sensor hub');
   }
+
+ // sample message publisher from sensor
+  publishSensorMsg() {
+    this.pubnub.publish({
+      message: { temp: { id: 563421, data: '55.75° C', occurred_on: 1734256787 }},
+      channel: 'sensorcomm'
+    },
+  (status, response) => {
+    if(status.error){
+      console.error(status);
+    }
+    else {
+      console.log(response);
+    }
+  });
+  }
+
 }

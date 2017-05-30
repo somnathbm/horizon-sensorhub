@@ -65,12 +65,154 @@ page-dashboard {
   }
 
   .welcome-guest {
-    width: 38%;
-    margin: 64px auto;
+    width: 100%;
+    margin: 0px;
+    //overflow: hidden;
   }
 
-  .welcome-guest img {
-    //filter: grayscale(100%);
+  .welcome-user {
+    height: 94.2vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .first-il {
+    height: 94.2vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .second-il {
+    height: 900px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .third-il {
+    height: 900px;
+    position: relative;
+    overflow: hidden;
+
+    .third-il-inner {
+      width: 60%;
+      height: 500px; 
+      margin: 154px auto;
+      background-color: lighten(darkslategray, 50%);
+      border-radius: 12px;
+    }
+  }
+
+  .first-il-text {
+    width: 2500px;
+    height: 1180px;
+    background-color: darkslategray;
+    position: absolute;
+    left: -294px;
+    top: 220px;
+    transform: rotate(30deg);
+
+    .il-header {
+      width: 670px;
+      position: absolute;
+      top: 280px;
+      left: 640px;
+      transform: rotate(-30deg);
+
+      h4 {
+        font-size: 6rem;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 100;
+        color: coral;
+      }
+
+      p {
+        margin-top: 73px;
+        color: white;
+        font-size: 20px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+      }
+    }
+  }
+  
+  .second-il-text {
+    width: 3700px;
+    height: 1180px;
+    background-color: coral;
+    position: absolute;
+    left: -1264px;
+    top: 586px;
+    transform: rotate(-30deg);
+
+    .il-header {
+      width: 670px;
+      position: absolute;
+      top: 293px;
+      right: 514px;
+      transform: rotate(30deg);
+
+      h4 {
+        font-size: 6rem;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 100;
+        color: darkslategray;
+      }
+
+      p {
+        margin-top: 73px;
+        color: white;
+        font-size: 20px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+      }
+    }
+  }
+
+  .third-il-text {
+    width: 630px;
+    position: relative;
+    top: -445px;
+    left: 515px;
+
+    .il-header {
+      width: 630px;
+
+      h4 {
+        font-size: 6rem;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 100;
+        color: darkslategray;
+      }
+
+      p {
+        margin-top: 73px;
+        color: white;
+        font-size: 20px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+      }
+    }
+  }
+
+  .first-il-image {
+    width: 413px;
+    position: absolute;
+    right: 53px;
+    top: 269px;
+  }
+
+  .second-il-image {
+    width: 377px;
+    position: absolute;
+    left: 201px;
+    top: 201px;
+
+    img {filter: grayscale(100%); }
+  }
+
+  .third-il-image {
+    width: 500px;
+    position: relative;
   }
 
   .active-kit {

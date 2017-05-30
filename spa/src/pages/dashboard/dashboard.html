@@ -23,9 +23,46 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
   <div class="welcome-guest" *ngIf="!auth.user">
-    <img src="assets/images/mod/launcher.jpg">
+    <div class="first-il">
+      <div class="first-il-image">
+        <img src="assets/images/mod/first-il.png">
+      </div>
+      <div class="first-il-text">
+        <article class="il-header">
+          <h4>let the sensors</h4>
+          <h4>speak for us</h4>
+          <p>Cupcake ipsum dolor sit amet I love sweet roll. Lollipop sesame snaps sweet I love. Soufflé lollipop ice cream biscuit jelly beans I love I love gingerbread dragée. Biscuit sweet roll cake bonbon.</p>
+        </article>
+      </div>
+    </div>
+    <div class="second-il">
+      <div class="second-il-image">
+        <img src="assets/images/mod/second-il.png">
+      </div>
+      <div class="second-il-text">
+        <article class="il-header">
+          <h4>data aquisition</h4>
+          <h4>with Internet of Things</h4>
+          <p>Cupcake ipsum dolor sit amet I love sweet roll. Lollipop sesame snaps sweet I love. Soufflé lollipop ice cream biscuit jelly beans I love I love gingerbread dragée. Biscuit sweet roll cake bonbon.</p>
+        </article>
+      </div>
+    </div>
+    <div class="third-il">
+      <div class="third-il-inner">
+        <div class="third-il-image">
+          <img src="assets/images/mod/launcher.jpg">
+        </div>
+        <div class="third-il-text">
+          <article class="il-header">
+          <h4>start playing</h4>
+          <h4>with the sensors</h4>
+          <p>Cupcake ipsum dolor sit amet I love sweet roll. Lollipop sesame snaps sweet I love. Soufflé lollipop ice cream biscuit jelly beans I love I love gingerbread dragée. Biscuit sweet roll cake bonbon.</p>
+        </article>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="welcome-user" *ngIf="auth.user">
     <div class="active-kit" [ngClass]="{ 'blue-yellow': myTheme.secondary == 'blue-yellow-secondary', 'bluegray-lightgreen': myTheme.secondary == 'bluegray-lightgreen-secondary', 'purple-lightgreen': myTheme.secondary == 'purple-lightgreen-secondary'}">

@@ -27,8 +27,8 @@ export class Menu {
     { name: 'blue', menuThemeClass: 'blue-yellow', colorMapKey: { primary: 'blue-yellow-primary', secondary: 'blue-yellow-secondary'} }
   ];
 
-  defaultColorMapKey: object = { primary: 'blue-yellow-primary', secondary: 'blue-yellow-secondary' };
-  defaultTheme: string = 'blue-yellow';
+  defaultColorMapKey: object = { primary: 'bluegray-lightgreen-primary', secondary: 'bluegray-lightgreen-secondary' };
+  defaultTheme: string = 'bluegray-lightgreen';
 
   constructor(public navCtrl: NavController, public menuCtrl: MenuController) {
   }

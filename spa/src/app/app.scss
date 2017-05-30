@@ -15,7 +15,7 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 ion-content .scroll-content {
-  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .navigation-header, .toolbar-content {
@@ -34,6 +34,7 @@ ion-content .scroll-content {
   .page-brand button {
     box-shadow: none;
     order: 0;
+    transform: rotate(-30deg);
   }
 
   .button-clear-md { color: #fff !important; }
